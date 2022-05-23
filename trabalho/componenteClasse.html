@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cálculo de IMC</title>
+</head>
+    <body>
+    
+        <div id="root"></div>
+
+        <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+        <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+        <script type="text/babel">
+
+            class FormImc extends React.Component {
+                //criação dos componentes pai
+                constructor(props){
+                    super(props)
+                    this.state = {peso: props.peso, altura:0, imc:""}
+                }
+
+
+                Result(){
+                    // Atualiza o estado de imc para que a próxima renderização mostre o resultado.
+                    this.setState({
+                        imc:isNaN(this.state.peso) || isNaN(this.state.altura) ? '' : this.state.peso / (this.state.altura ** 2)
+                    })
+                }            
+        
+                        
+                render() {
+                    //declaro aq o this.state para que nas declarações de value minimizar o codigo
+                    const {peso, altura, imc} = this.state;
+                    //utilizo os metodos setStete dos componeste e não o componente pai
+                    return (
+                        <form>
+                        <h1>Cálculo de IMC FelipheTeste</h1>
+                        <div>
+                            <label htmlFor='peso'>Peso (kg):</label> <br />
+                            <input type='number' value={peso} onChange={(e) => this.setState({ peso: Number(e.target.value) },this.Result)} />
+                        </div>
+                        <div>
+                            <label htmlFor="altura">Altura (m):</label><br />
+                            <input id="altura" type="number" value={altura} onChange={(e) => this.setState({ altura: Number(e.target.value) }, this.Result)} />
+                            </div>
+                            <div> {this.props.emotion}</div>
+                            <div>IMC: {imc}</div>
+                        </form>
+                    )
+                }
+            }
+            //Renderizo na tela meu elemento root da classe FormImc
+            ReactDOM.render(<FormImc />, document.getElementById('root'))
+
+        </script>
+    </body>
+</html>
